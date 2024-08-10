@@ -3,9 +3,70 @@ import Head from 'next/head';
 
 export default function Home() {
   const [apps, setApps] = useState([]);
-  const [selectedTab, setSelectedTab] = useState('internal'); // Default to 'internal'
+  const [selectedTab, setSelectedTab] = useState('public'); // Default to 'internal'
   const [isInternal, setIsInternal] = useState(false); // State to check if the user is on an internal IP
+  const [serverPublicIp, setServerPublicIp] = useState(null);
 
+  // Fetch the server's public IP
+  useEffect(() => {
+    async function fetchServerPublicIp() {
+      try {
+        const response = await fetch('/api/getServerPublicIp');
+        if (response.ok) {
+          const { ip } = await response.json();
+          setServerPublicIp(ip);
+        } else {
+          console.error('Failed to fetch server public IP:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching server public IP:', error);
+      }
+    }
+
+    fetchServerPublicIp();
+  }, []);
+
+  // Fetch client IP and determine if it's internal
+  useEffect(() => {
+    if (serverPublicIp === null) return; // Wait until serverPublicIp is set
+
+    async function fetchClientIp() {
+      try {
+        const response = await fetch('/api/getClientIp');
+        if (response.ok) {
+          const { ip } = await response.json();
+
+          // Check if the IP is in the range of internal IPs, localhost, or server's public IP
+          const internalIpRanges = [
+            /^192\.168\./,
+            /^10\./,
+            /^172\.(1[6-9]|2[0-9]|3[0-1])\./,
+            /^127\.0\.0\.1/  // localhost
+          ];
+
+          if (serverPublicIp) {
+            internalIpRanges.push(new RegExp(`^${serverPublicIp.replace(/\./g, '\\.')}$`));
+          }
+
+          const isInternalIp = internalIpRanges.some(range => range.test(ip));
+          setIsInternal(isInternalIp);
+
+          // If not internal, switch to 'public' tab
+          if (!isInternalIp) {
+            setSelectedTab('public');
+          }
+        } else {
+          console.error('Failed to fetch client IP:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching client IP:', error);
+      }
+    }
+
+    fetchClientIp();
+  }, [serverPublicIp]);
+
+  // Fetch the apps data
   useEffect(() => {
     async function fetchApps() {
       const response = await fetch('/api/apps');
@@ -13,32 +74,10 @@ export default function Home() {
       setApps(data);
     }
 
-    async function fetchClientIp() {
-      const response = await fetch('/api/getClientIp');
-      const { ip } = await response.json();
-      
-      console.log(ip);
-      // Check if the IP is in the range of internal IPs or localhost
-      const internalIpRanges = [
-        /^192\.168\./,
-        /^10\./,
-        /^172\.(1[6-9]|2[0-9]|3[0-1])\./,
-        /^127\.0\.0\.1/  // localhost
-      ];
-      const isInternalIp = internalIpRanges.some(range => range.test(ip));
-      setIsInternal(isInternalIp);
-
-      // If not internal, switch to 'public' tab
-      if (!isInternalIp) {
-        setSelectedTab('public');
-      }
-    }
-
-    fetchClientIp();
     fetchApps();
   }, []);
 
-  const filteredApps = apps.filter(isInternal ? app => app.category === selectedTab : app => app.category === 'public');
+  const filteredApps = apps.filter(app => app.category === selectedTab);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
