@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 
 export default function Home() {
   const [apps, setApps] = useState([]);
@@ -117,9 +118,11 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="bg-white w-40 h-40 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 flex flex-col items-center justify-center"
               >
-                <img 
+                <Image 
                   src={app.image} 
                   alt={app.name} 
+                  width={512}
+                  height={512}
                   className="w-24 h-24 object-contain rounded-lg mb-2"
                 />
                 <h2 className="text-sm font-semibold text-gray-800 text-center">{app.name}</h2>
