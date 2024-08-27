@@ -96,27 +96,27 @@ export default function Home() {
           <button
             onClick={() => setSelectedTab('internal')}
             disabled={!isInternal}
-            className={`px-4 py-2 mx-2 rounded-lg ${selectedTab === 'internal' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600 border border-cyan-600'} ${!isInternal ? 'cursor-not-allowed opacity-50' : ''}`}
+            className={`px-4 py-2 mx-2 rounded-lg ${selectedTab === 'internal' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600 border border-cyan-600 hover:bg-slate-200'} ${!isInternal ? 'cursor-not-allowed opacity-50' : ''}`}
           >
             Internal
           </button>
           <button
             onClick={() => setSelectedTab('public')}
-            className={`px-4 py-2 mx-2 rounded-lg ${selectedTab === 'public' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600 border border-cyan-600'}`}
+            className={`px-4 py-2 mx-2 rounded-lg ${selectedTab === 'public' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600 border border-cyan-600 hover:bg-slate-200 '}`}
           >
             Public
           </button>
         </div>
 
         {filteredApps.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid place-items-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {filteredApps.map((app, index) => (
               <a
                 key={index}
                 href={app.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white w-40 h-40 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 flex flex-col items-center justify-center"
+                className="bg-white w-40 h-40 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:-translate-y-1 flex flex-col items-center justify-center hover:bg-slate-200"
               >
                 <Image 
                   src={app.image} 
