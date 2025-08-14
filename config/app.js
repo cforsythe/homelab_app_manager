@@ -8,6 +8,7 @@ import proxmoxIcon from '../public/images/proxmox_icon.png';
 import qbittorrentIcon from '../public/images/qbittorrent_icon.png';
 import radarrIcon from '../public/images/radarr_icon.png';
 import sonarrIcon from '../public/images/sonarr_icon.png';
+import zigbee2MqttIcon from '../public/images/zigbee2mqtt.png';
 
 
 module.exports = [
