@@ -8,6 +8,7 @@ import proxmoxIcon from '../public/images/proxmox_icon.png';
 import qbittorrentIcon from '../public/images/qbittorrent_icon.png';
 import radarrIcon from '../public/images/radarr_icon.png';
 import sonarrIcon from '../public/images/sonarr_icon.png';
+import zigbee2MqttIcon from '../public/images/zigbee2mqtt.png';
 
 
 module.exports = [
@@ -23,6 +24,7 @@ module.exports = [
     { name: 'Sonarr', url: 'http://hosting.local:8989', image: sonarrIcon, category: 'internal' },
     { name: 'Radarr', url: 'http://hosting.local:7878', image: radarrIcon, category: 'internal' },
     { name: 'Prowlarr', url: 'http://hosting.local:9696', image: prowlarrIcon, category: 'internal' },
+    { name: 'Zigbee2Mqtt', url: 'http://hosting.local:8181', image: zigbee2MqttIcon, category: 'internal' },
     // Public Apps
     { name: 'BookStack', url: 'https://bookstack.cforsythe.me', image: "https://avatars.githubusercontent.com/u/20912696?s=200&v=4", category: 'public' },
     { name: 'Overseerr', url: 'https://watch.cforsythe.me', image: overseerrIcon, category: 'public' },
